@@ -1,0 +1,61 @@
+{% extends 'quotes/base.html' %}
+{% block title %}Дашборд{% endblock %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+<h2 class="mb-4">Дашборд</h2>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Количество цитат по источникам</h5>
+            <canvas id="chartQuotes"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Лайки / Дизлайки по источникам</h5>
+            <canvas id="chartReactions"></canvas>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card p-3">
+            <h5>Просмотры по источникам</h5>
+            <canvas id="chartViews"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    const labels = {{ labels| safe }};
+    const quotesCount = {{ quotes_count| safe }};
+    const totalLikes = {{ total_likes| safe }};
+    const totalDislikes = {{ total_dislikes| safe }};
+    const totalViews = {{ total_views| safe }};
+
+    new Chart(document.getElementById('chartQuotes'), {
+        type: 'bar',
+        data: { labels, datasets: [{ label: 'Цитаты', data: quotesCount }] },
+        options: { responsive: true }
+    });
+
+    new Chart(document.getElementById('chartReactions'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                { label: 'Лайки', data: totalLikes },
+                { label: 'Дизлайки', data: totalDislikes }
+            ]
+        },
+        options: { responsive: true }
+    });
+
+    new Chart(document.getElementById('chartViews'), {
+        type: 'line',
+        data: { labels, datasets: [{ label: 'Просмотры', data: totalViews }] },
+        options: { responsive: true }
+    });
+</script>
+{% endblock %}

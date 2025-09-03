@@ -1,0 +1,20 @@
+{% extends 'quotes/base.html' %}
+{% block title %}Топ-10 по лайкам{% endblock %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+<h2 class="mb-3">Топ-10 цитат</h2>
+{% if quotes %}
+<ol class="list-group list-group-numbered">
+    {% for q in quotes %}
+    <li class="list-group-item">
+        <div class="fw-semibold mb-1">«{{ q.text|truncatechars:200 }}»</div>
+        <div class="small text-muted">{{ q.source.title }} ({{ q.source.get_type_display }})</div>
+        <div class="small">👍 {{ q.likes }} · 👎 {{ q.dislikes }} · 👁️ {{ q.views }}</div>
+    </li>
+    {% endfor %}
+</ol>
+{% else %}
+<p>Пока пусто.</p>
+{% endif %}
+{% endblock %}

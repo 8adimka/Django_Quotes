@@ -1,0 +1,40 @@
+{% extends 'quotes/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Добавить цитату{% endblock %}
+{% block content %}
+<h2 class="mb-3">Добавление новой цитаты</h2>
+<form method="post" class="card p-3">
+    {% csrf_token %}
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label">{{ form.source_type.label }}</label>
+            {{ form.source_type|add_class:"form-select" }}
+        </div>
+        <div class="col-md-8">
+            <label class="form-label">{{ form.source_title.label }}</label>
+            {{ form.source_title|add_class:"form-control" }}
+        </div>
+        <div class="col-12">
+            <label class="form-label">{{ form.text.label }}</label>
+            {{ form.text|add_class:"form-control" }}
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">{{ form.base_weight.label }}</label>
+            {{ form.base_weight|add_class:"form-control" }}
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary">Сохранить</button>
+        </div>
+    </div>
+    {% if form.errors %}
+    <div class="alert alert-danger mt-3">
+        {{ form.errors }}
+    </div>
+    {% endif %}
+</form>
+
+{# Простой фильтр, чтобы навесить классы на поля #}
+{% load static %}
+{% load add_class %}
+{% endblock %}

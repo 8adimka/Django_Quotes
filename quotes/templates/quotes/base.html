@@ -1,0 +1,41 @@
+<!doctype html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Цитаты{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'quotes/styles.css' %}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'quotes:index' %}">🎬📚 Цитаты</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="{% url 'quotes:top' %}">Топ-10</a>
+                <a class="nav-link" href="{% url 'quotes:dashboard' %}">Дашборд</a>
+                <a class="nav-link" href="{% url 'quotes:add' %}">Добавить</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% if messages %}
+        <div class="mb-3">
+            {% for m in messages %}
+            <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
