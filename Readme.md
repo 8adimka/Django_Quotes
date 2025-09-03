@@ -133,8 +133,8 @@ docker-compose up
 1. Клонируем репозиторий:  
 
 ```bash
-git clone <URL репозитория>
-cd <имя проекта>
+git clone https://github.com/8adimka/Django_Quotes.git
+cd Django_Quotes
 ```
 
 2. Создаём `.env` файл с переменными окружения.  
