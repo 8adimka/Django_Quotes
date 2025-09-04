@@ -22,11 +22,21 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"), overwrite=False)
 
 DEBUG = env("DJANGO_DEBUG")
 SECRET_KEY = env("DJANGO_SECRET_KEY")
-ALLOWED_HOSTS = [h.strip() for h in env("DJANGO_ALLOWED_HOSTS").split(",") if h.strip()]
+# Safely parse ALLOWED_HOSTS
+allowed_hosts_str = str(env("DJANGO_ALLOWED_HOSTS"))
+ALLOWED_HOSTS = (
+    [h.strip() for h in allowed_hosts_str.split(",") if h.strip()]
+    if allowed_hosts_str and allowed_hosts_str != ""
+    else []
+)
 
-CSRF_TRUSTED_ORIGINS = [
-    o.strip() for o in env("CSRF_TRUSTED_ORIGINS").split(",") if o.strip()
-]
+# Safely parse CSRF_TRUSTED_ORIGINS
+csrf_origins_str = str(env("CSRF_TRUSTED_ORIGINS"))
+CSRF_TRUSTED_ORIGINS = (
+    [o.strip() for o in csrf_origins_str.split(",") if o.strip()]
+    if csrf_origins_str and csrf_origins_str != ""
+    else []
+)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -89,9 +99,10 @@ TIME_ZONE = env("TIME_ZONE")
 USE_I18N = True
 USE_TZ = True  # keep True for DB consistency
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "quotes" / "static"]
+
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

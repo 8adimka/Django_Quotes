@@ -12,7 +12,7 @@ if not url:
     raise SystemExit("DATABASE_URL not set")
 
 u = urlparse(url)
-for _ in range(60):
+for _ in range(30):
     try:
         psycopg2.connect(
             dbname=u.path.lstrip('/'),
@@ -25,10 +25,10 @@ for _ in range(60):
     except Exception:
         time.sleep(1)
 else:
-    raise SystemExit("Postgres not available after 60 seconds")
+    raise SystemExit("Postgres not available")
 PY
 
-echo "Database is ready. Applying migrations..."
+echo "Applying migrations..."
 python manage.py migrate --noinput
 
 exec "$@"
